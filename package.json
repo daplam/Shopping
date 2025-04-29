@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "apitest":"npx playwright test Apitest.spec.ts:21"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
