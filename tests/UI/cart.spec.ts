@@ -37,11 +37,8 @@ test('TC02 - Complete order - 1 Product', async ({ page }) => {
     await utils.selectTopMenuOption({ option: TOPOPTIONS.CART })
     await myCartPage.clickCheckout()
     const ccard = '4542 9931 9292 2293'
+    await utils.completePayment({ cardNo: ccard, cvv: '123', expireMonth: '06', expireYear: '25', cardName: 'Daniel', country: 'India' })
 
-    await paymentMethodPage.fillPersonalInformation({ cardNo: ccard, cvv: '123', expireMonth: '06', expireYear: '25', cardName: 'Daniel' })
-    await paymentMethodPage.fillShippingInformation({ country: 'India' })
-
-    await paymentMethodPage.clickPlaceOrder()
     let orders = await thankYouPage.getOrdersId()
     await utils.selectTopMenuOption({ option: TOPOPTIONS.ORDERS })
     await yourOrdersPage.verifyOrder({ orderId: orders })
@@ -74,11 +71,8 @@ test('TC03 - Complete order - 2 Products', async ({ page }) => {
     await myCartPage.clickCheckout()
 
     const ccard = '4542 9931 9292 2293'
+    await utils.completePayment({ cardNo: ccard, cvv: '123', expireMonth: '06', expireYear: '25', cardName: 'Daniel', country: 'India' })
 
-    await paymentMethodPage.fillPersonalInformation({ cardNo: ccard, cvv: '123', expireMonth: '06', expireYear: '25', cardName: 'Daniel' })
-    await paymentMethodPage.fillShippingInformation({ country: 'India' })
-
-    await paymentMethodPage.clickPlaceOrder()
     let orders = await thankYouPage.getOrdersId()
     await utils.selectTopMenuOption({ option: TOPOPTIONS.ORDERS })
     await page.pause()

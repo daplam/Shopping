@@ -22,11 +22,8 @@ test('View order', async ({ page }) => {
     await utils.selectTopMenuOption({ option: TOPOPTIONS.CART })
     await myCartPage.clickCheckout()
     const ccard = '4542 9931 9292 2293'
+    await utils.completePayment({ cardNo: ccard, cvv: '123', expireMonth: '06', expireYear: '25', cardName: 'Daniel', country: 'India' })
 
-    await paymentMethodPage.fillPersonalInformation({ cardNo: ccard, cvv: '123', expireMonth: '06', expireYear: '25', cardName: 'Daniel' })
-    await paymentMethodPage.fillShippingInformation({ country: 'India' })
-
-    await paymentMethodPage.clickPlaceOrder()
     let orders = await thankYouPage.getOrdersId()
     await utils.selectTopMenuOption({ option: TOPOPTIONS.ORDERS })
     await page.pause()
@@ -53,11 +50,8 @@ test('Delete order', async ({ page }) => {
     await utils.selectTopMenuOption({ option: TOPOPTIONS.CART })
     await myCartPage.clickCheckout()
     const ccard = '4542 9931 9292 2293'
+    await utils.completePayment({ cardNo: ccard, cvv: '123', expireMonth: '06', expireYear: '25', cardName: 'Daniel', country: 'India' })
 
-    await paymentMethodPage.fillPersonalInformation({ cardNo: ccard, cvv: '123', expireMonth: '06', expireYear: '25', cardName: 'Daniel' })
-    await paymentMethodPage.fillShippingInformation({ country: 'India' })
-
-    await paymentMethodPage.clickPlaceOrder()
     let orders = await thankYouPage.getOrdersId()
     await utils.selectTopMenuOption({ option: TOPOPTIONS.ORDERS })
     await page.pause()
