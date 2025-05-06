@@ -70,25 +70,25 @@ class LoginPage {
         if (email && !password) {
             await this.inputs.email.fill(email)
             await this.clickLoginBtn()
-            await expect(await this.labels.passwordRequired).toBeVisible()
+            await expect(this.labels.passwordRequired).toBeVisible()
         }
         if (!email && password) {
             await this.inputs.password.fill(password)
             await this.clickLoginBtn()
-            await expect(await this.labels.emailRequired).toBeVisible()
+            await expect(this.labels.emailRequired).toBeVisible()
         }
 
         if (!email && !password) {
             await this.clickLoginBtn()
-            await expect(await this.labels.emailRequired).toBeVisible()
-            await expect(await this.labels.passwordRequired).toBeVisible()
+            await expect(this.labels.emailRequired).toBeVisible()
+            await expect(this.labels.passwordRequired).toBeVisible()
         }
 
         if (email && password) {
             await this.inputs.email.fill(email)
             await this.inputs.password.fill(password)
             await this.clickLoginBtn()
-            await expect(await this.labels.incorrectLogin).toBeVisible()
+            await expect(this.labels.incorrectLogin).toBeVisible()
         }
     }
 

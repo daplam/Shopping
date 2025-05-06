@@ -1,0 +1,18 @@
+{
+  "SuccessLogin": {
+    "username": "starwayheavengod@gmail.com",
+    "password": "Alejandro.123"
+  },
+  "MissingUsername": {
+    "username": "",
+    "password": "Alejandro.123"
+  },
+  "MissingPassword": {
+    "username": "starwayheavengod@gmail.com",
+    "password": ""
+  },
+  "MissingCredentials": {
+    "username": "",
+    "password": ""
+  }
+}

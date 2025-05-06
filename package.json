@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "apitest":"npx playwright test Apitest.spec.ts:21"
+    "apitest": "npx playwright test --grep @API",
+    "Allure report":"allure serve allure-results"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +13,10 @@
   "type": "commonjs",
   "devDependencies": {
     "@playwright/test": "^1.52.0",
-    "@types/node": "^22.14.1"
+    "@types/node": "^22.14.1",
+    "allure-playwright": "^3.2.1"
+  },
+  "dependencies": {
+    "@cucumber/cucumber": "^11.2.0"
   }
 }

@@ -1,4 +1,4 @@
-import { Locator, Page } from "@playwright/test"
+import { expect, Locator, Page } from "@playwright/test"
 
 class PaymentMethodPage {
 
@@ -66,12 +66,12 @@ class PaymentMethodPage {
 
         await this.shippingInformation.inputCountry.pressSequentially(country)
         await this.page.locator(country).isVisible()
-        this.page.getByText(country, { exact: true }).click()
+        await this.page.getByText(country, { exact: true }).click()
+
     }
 
     async clickPlaceOrder() {
         await this.shippingInformation.btnPlaceOrder.isEnabled()
-        await this.page.locator('.ta-results').isHidden()
         await this.shippingInformation.btnPlaceOrder.click()
     }
 

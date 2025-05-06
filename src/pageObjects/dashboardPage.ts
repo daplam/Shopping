@@ -16,6 +16,7 @@ class DashboardPage {
     private readonly buttons: {
         viewBtn: Locator,
         addToCartBtn: Locator
+        signOut: Locator
     }
 
     private readonly inputs: {
@@ -45,6 +46,7 @@ class DashboardPage {
 
     private readonly toast: {
         addedToCart: Locator
+        logOutSuccessfully: Locator
     }
 
     constructor(page: Page) {
@@ -54,7 +56,8 @@ class DashboardPage {
 
         this.buttons = {
             viewBtn: page.getByRole('button', { name: 'View' }),
-            addToCartBtn: page.getByRole('button', { name: ' Add To Cart' })
+            addToCartBtn: page.getByRole('button', { name: ' Add To Cart' }),
+            signOut: page.locator('button').filter({ hasText: ' Sign Out ' })
         }
 
         this.inputs = {
@@ -83,7 +86,9 @@ class DashboardPage {
         }
 
         this.toast = {
-            addedToCart: page.getByLabel('Product Added To Cart')
+            addedToCart: page.getByLabel('Product Added To Cart'),
+            logOutSuccessfully: page.getByLabel('Logout Successfully')
+
         }
     }
 
@@ -94,6 +99,12 @@ class DashboardPage {
         // if (allProducts.includes(productName)) {
         await this.card.filter({ hasText: productName }).getByRole('button', { name: ' Add To Cart' }).click()
         await expect(this.toast.addedToCart).toBeVisible()
+    }
+
+    async signOut() {
+        await this.buttons.signOut.isVisible()
+        await this.buttons.signOut.click()
+        await expect(this.toast.logOutSuccessfully).toBeVisible()
     }
 
 } export default DashboardPage

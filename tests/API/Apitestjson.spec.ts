@@ -1,7 +1,7 @@
 import test from "@playwright/test";
 import POManager from "../../src/pageObjects/POManager";
-import { TOPOPTIONS } from "../../src/pageObjects/topMenuPage";
 import UtilsUI from "../../src/utils/utilsUI";
+import { TOPOPTIONS } from "../../src/constants/constants";
 
 let webContext // global variable to be accesible in all file
 
@@ -18,6 +18,7 @@ test.beforeAll(async ({ browser }) => {
     const password = 'Alejandro.123'
 
     //Make login
+    await utils.navigateTo()
     await utils.userLogin({ email: loginMail, password: password }) // normal login
     await context.storageState({ path: 'state.json' }) //create the file with the storage state info with the previous login and context // this is at context level
     // method storageState () // it captures all the data that see in the logs (storage, cookies, tokens, etc)
@@ -26,7 +27,7 @@ test.beforeAll(async ({ browser }) => {
     await context.close() // close first browser, the one used to generate the json file
 })
 
-test('TC01 - Creating webbrowser context with json', async () => {
+test('@API TC01 - Creating webbrowser context with json', async () => {
 
     const pagewithjson = await webContext.newPage() // create a new page using the context with the session storage data injected with the json file
 
@@ -39,7 +40,6 @@ test('TC01 - Creating webbrowser context with json', async () => {
     const myCartPage = poManager.getMyCartPage()
     const thankYouPage = poManager.getThankYouPage()
     const yourOrdersPage = poManager.getYourOrdersPage()
-
     const productName = 'ZARA COAT 3'
     const productName2 = 'ADIDAS ORIGINAL'
     await dashboardPage.addProduct({ productName: productName })

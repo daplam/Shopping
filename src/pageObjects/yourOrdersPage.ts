@@ -11,6 +11,11 @@ class YourOrdersPage {
         goBackCart: Locator
     }
 
+    private readonly texts: {
+        tableTitle: Locator
+        noOrders: Locator
+    }
+
     constructor(page: Page) {
         this.page = page
 
@@ -19,6 +24,11 @@ class YourOrdersPage {
             delete: page.getByRole('button'),
             goBackShop: page.getByRole('button', { name: 'Go Back to Shop' }),
             goBackCart: page.getByRole('button', { name: 'Go Back to Cart' })
+        }
+
+        this.texts = {
+            tableTitle: page.getByRole('heading', { name: 'Your Orders' }),
+            noOrders: page.getByText(' You have No Orders to show at this time. Please Visit Back Us ')
         }
     }
 
@@ -93,29 +103,47 @@ class YourOrdersPage {
          }*/
     }
 
-    async viewOrder({ orderId }: { orderId: any }) {
-        await this.page.getByRole('heading', { name: 'Your Orders' }).waitFor()
+    async viewOrder({ orderId }: { orderId?: any } = {}) {
+        //await this.page.getByRole('heading', { name: 'Your Orders' }).waitFor()
+        //await console.log(await this.page.url())
+        await this.page.waitForURL(/.*myorders/, { waitUntil: 'networkidle' })
+        /* await expect(await this.page).toHaveURL(/.*myorders/);
+         await this.page.waitForLoadState('networkidle');*/
 
+        if (orderId) {
+            if (await this.texts.tableTitle.isVisible()) {
+                const tableBody = await this.page.locator('tbody')
+                const tableRows = await tableBody.locator('tr')
+                const totalRows = await tableRows.count()
+                //console.log('Total rows: ' + totalRows)
+                //console.log(orderId)
 
-        const tableBody = await this.page.locator('tbody')
-        const tableRows = await tableBody.locator('tr')
-        const totalRows = await tableRows.count()
-        //console.log('Total rows: ' + totalRows)
-        //console.log(orderId)
+                for (let i = 0; i < totalRows; i++) {
+                    const rowContents = await tableRows.nth(i).locator('td')
+                    const rowOrder = await tableRows.nth(i).locator('th')
+                    //console.log('Row order:<' + await rowOrder.textContent() + '>')
+                    if (orderId == (await rowOrder.textContent())) {
+                        //console.log(await rowContents.nth(1).textContent())
+                        //console.log('Row order:<' + await rowOrder.textContent() + '>')
+                        this.buttons.view = rowContents.nth(4).getByText('View')
+                        break
+                    }
+                }
+                await this.buttons.view.click()
+                await expect(this.page.getByText('Thank you for Shopping With Us')).toBeVisible()
+                await expect(this.page.getByText('order summary')).toBeVisible()
 
-
-        for (let i = 0; i < totalRows; i++) {
-            const rowContents = await tableRows.nth(i).locator('td')
-            const rowOrder = await tableRows.nth(i).locator('th')
-            //console.log('Row order:<' + await rowOrder.textContent() + '>')
-            if (orderId == (await rowOrder.textContent())) {
-                //console.log(await rowContents.nth(1).textContent())
-                //console.log('Row order:<' + await rowOrder.textContent() + '>')
-                this.buttons.view = rowContents.nth(4).getByText('View')
-                break
+            }
+            else {
+                await expect(await this.texts.noOrders).toBeVisible()
             }
         }
-        await this.buttons.view.click()
+        else {
+            await this.buttons.view.getByText('View').first().click()
+        }
+
+
+
 
     }
 

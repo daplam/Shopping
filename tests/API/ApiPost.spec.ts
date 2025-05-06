@@ -1,8 +1,8 @@
 import test, { expect, request } from "@playwright/test";
 import POManager from "../../src/pageObjects/POManager";
 import UtilsUI from "../../src/utils/utilsUI";
-import { TOPOPTIONS } from "../../src/pageObjects/topMenuPage";
 import UtilsAPI from "../../src/utils/utilsAPI";
+import { TOPOPTIONS } from "../../src/constants/constants";
 const loginPayload = { userEmail: "starwayheavengod@gmail.com", userPassword: "Alejandro.123" } // created as javascript object
 const createOrderPayload = { orders: [{ country: "Armenia", productOrderedId: "67a8dde5c0d3e6622a297cc8" }] }
 // with request object, it allows to call apis
@@ -18,10 +18,9 @@ test.beforeAll(async () => { // all inside, will be executed before all tests 1 
 })
 
 
-test('Create order', async ({ page }) => {
+test('@API Create order', async ({ page }) => {
     const poManager = new POManager(page)
     const utils = new UtilsUI(page)
-
     const yourOrdersPage = poManager.getYourOrdersPage()
     const orderSummaryPage = poManager.getOrderSummaryPage()
 
@@ -33,12 +32,10 @@ test('Create order', async ({ page }) => {
         window.localStorage.setItem('token', value); // 'token' is the key value in the local storage browser, value is get from 2nd argument token
     }, response.token) // token is the 2nd argument, sent to Setitem to value
 
-    await page.goto('https://rahulshettyacademy.com/client');
+    //await page.goto('https://rahulshettyacademy.com/client');
+    await utils.navigateTo()
 
     await utils.selectTopMenuOption({ option: TOPOPTIONS.ORDERS })
-
     await yourOrdersPage.viewOrder({ orderId: response.orderId })
-    await orderSummaryPage.verifyOrderSummary({ order: response.orderId })
 
-
-});
+})

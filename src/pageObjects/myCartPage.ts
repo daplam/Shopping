@@ -70,7 +70,6 @@ class MyCartPage {
         } catch (e) {
             console.log('No view')
         }
-        await this.page.pause()
     }
 
 } export default MyCartPage

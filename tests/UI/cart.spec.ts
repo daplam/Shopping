@@ -1,10 +1,19 @@
 import test from "@playwright/test";
 import POManager from "../../src/pageObjects/POManager";
-import { TOPOPTIONS } from "../../src/pageObjects/topMenuPage";
 import UtilsUI from "../../src/utils/utilsUI";
+import { TOPOPTIONS } from "../../src/constants/constants";
 
+test.beforeEach(async ({ page }) => {
+
+    //const page = await context.newPage()
+    const utils = new UtilsUI(page)
+    await utils.navigateTo()
+
+})
 
 test('TC01 - Empty cart', async ({ page }) => {
+    //const context = await browser.newContext()
+    //const page = await context.newPage()
     const poManager = new POManager(page)
     const myCartPage = poManager.getMyCartPage()
     const topMenu = poManager.getTopMenu()
@@ -18,12 +27,13 @@ test('TC01 - Empty cart', async ({ page }) => {
 
 });
 
+
 test('TC02 - Complete order - 1 Product', async ({ page }) => {
+
     const poManager = new POManager(page)
     const utils = new UtilsUI(page)
 
     const dashboardPage = poManager.getDashboardPage()
-    const paymentMethodPage = poManager.getPaymentMethodPage()
     const myCartPage = poManager.getMyCartPage()
     const thankYouPage = poManager.getThankYouPage()
     const yourOrdersPage = poManager.getYourOrdersPage()
@@ -50,7 +60,6 @@ test('TC03 - Complete order - 2 Products', async ({ page }) => {
     const utils = new UtilsUI(page)
 
     const dashboardPage = poManager.getDashboardPage()
-    const paymentMethodPage = poManager.getPaymentMethodPage()
     const myCartPage = poManager.getMyCartPage()
     const thankYouPage = poManager.getThankYouPage()
     const yourOrdersPage = poManager.getYourOrdersPage()
