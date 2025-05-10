@@ -63,13 +63,17 @@ class MyCartPage {
 
     async verifyCart() {
         await this.page.getByRole('heading', { name: 'My Cart' }).waitFor()
+        let msg
+        if (await this.buttons.checkout.isVisible()) {
 
-        try {
-            await expect(await this.labels.noProducts).toBeVisible()
-            console.log(await this.labels.noProducts.textContent())
-        } catch (e) {
-            console.log('No view')
         }
+        else {
+            await expect(await this.labels.noProducts).toBeVisible()
+            msg = await this.labels.noProducts.innerText()
+        }
+        return msg
+
+
     }
 
 } export default MyCartPage

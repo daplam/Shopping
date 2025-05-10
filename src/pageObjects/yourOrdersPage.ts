@@ -40,11 +40,9 @@ class YourOrdersPage {
         await this.buttons.goBackCart.click()
     }
 
-    async verifyOrder({ orderId }: { orderId: any }) {
+    async verifyOrder({ orderId }: { orderId: string[] }) {
         await this.page.getByRole('heading', { name: 'Your Orders' }).waitFor()
         let allOrders: string[] = await this.getOrders()
-        //console.log('Orders list: ' + allOrders)
-        // console.log('Orders: ' + orderId)
         //OPTION WITH 1 LINE
         await expect(orderId.every(element => allOrders.includes(element))).toBe(true)
 

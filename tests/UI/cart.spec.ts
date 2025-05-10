@@ -3,12 +3,12 @@ import POManager from "../../src/pageObjects/POManager";
 import UtilsUI from "../../src/utils/utilsUI";
 import { TOPOPTIONS } from "../../src/constants/constants";
 
+
 test.beforeEach(async ({ page }) => {
 
     //const page = await context.newPage()
     const utils = new UtilsUI(page)
     await utils.navigateTo()
-
 })
 
 test('TC01 - Empty cart', async ({ page }) => {
@@ -41,7 +41,9 @@ test('TC02 - Complete order - 1 Product', async ({ page }) => {
     const loginMail = 'starwayheavengod@gmail.com'
     const password = 'Alejandro.123'
 
-    await utils.userLogin({ email: loginMail, password: password })
+    //await utils.userLogin({ email: loginMail, password: password })
+    await utils.LoginbyRole({ role: 'user1' })
+
     const productName = 'ZARA COAT 3'
     await dashboardPage.addProduct({ productName: productName })
     await utils.selectTopMenuOption({ option: TOPOPTIONS.CART })
@@ -49,7 +51,7 @@ test('TC02 - Complete order - 1 Product', async ({ page }) => {
     const ccard = '4542 9931 9292 2293'
     await utils.completePayment({ cardNo: ccard, cvv: '123', expireMonth: '06', expireYear: '25', cardName: 'Daniel', country: 'India' })
 
-    let orders = await thankYouPage.getOrdersId()
+    let orders: string[] = await thankYouPage.getOrdersId()
     await utils.selectTopMenuOption({ option: TOPOPTIONS.ORDERS })
     await yourOrdersPage.verifyOrder({ orderId: orders })
 });
@@ -82,10 +84,8 @@ test('TC03 - Complete order - 2 Products', async ({ page }) => {
     const ccard = '4542 9931 9292 2293'
     await utils.completePayment({ cardNo: ccard, cvv: '123', expireMonth: '06', expireYear: '25', cardName: 'Daniel', country: 'India' })
 
-    let orders = await thankYouPage.getOrdersId()
+    let orders: string[] = await thankYouPage.getOrdersId()
     await utils.selectTopMenuOption({ option: TOPOPTIONS.ORDERS })
-    await page.pause()
-
     await yourOrdersPage.verifyOrder({ orderId: orders })
 });
 

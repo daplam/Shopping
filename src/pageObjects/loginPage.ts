@@ -45,7 +45,6 @@ class LoginPage {
         }
 
         this.labels = {
-
             emailRequired: page.getByText('*Email is required'),
             passwordRequired: page.getByText('*Password is required'),
             incorrectLogin: page.getByLabel('Incorrect email or password.')
@@ -56,32 +55,44 @@ class LoginPage {
         }
     }
 
-    async loginSuccess({ email, password }: { email: string, password: string }): Promise<void> {
+    async loginSuccess({ email, password }: { email: string, password: string }) {
+        let msg
         await this.inputs.email.waitFor({ state: 'visible' })
         await this.inputs.email.fill(email)
         await this.inputs.password.fill(password)
         await this.clickLoginBtn()
         await expect(this.toast.loginSuccessfully).toBeVisible()
-        await this.page.waitForLoadState('networkidle');
+        msg = this.toast.loginSuccessfully.innerText()
+        await this.page.waitForLoadState('networkidle')
+        return msg
     }
 
-    async loginIncorrect({ email, password }: { email?: string, password?: string }): Promise<void> {
+    async loginIncorrect({ email, password }: { email?: string, password?: string }) {
+        let errorMsg = ''
         await this.inputs.email.waitFor({ state: 'visible' })
         if (email && !password) {
             await this.inputs.email.fill(email)
             await this.clickLoginBtn()
             await expect(this.labels.passwordRequired).toBeVisible()
+            const passwordRequiredLabel = await this.labels.passwordRequired.innerText();  // Obtenemos el texto del label
+            errorMsg = passwordRequiredLabel;  // Guardamos el mensaje de error
         }
         if (!email && password) {
             await this.inputs.password.fill(password)
             await this.clickLoginBtn()
             await expect(this.labels.emailRequired).toBeVisible()
+            const emailRequiredLabel = await this.labels.emailRequired.innerText()
+            errorMsg = emailRequiredLabel
         }
 
         if (!email && !password) {
             await this.clickLoginBtn()
             await expect(this.labels.emailRequired).toBeVisible()
             await expect(this.labels.passwordRequired).toBeVisible()
+            const emailRequiredLabel = await this.labels.emailRequired.innerText()
+            const passwordRequiredLabel = await this.labels.passwordRequired.innerText()
+            errorMsg = `${emailRequiredLabel}\n${passwordRequiredLabel}`
+            console.log(errorMsg)
         }
 
         if (email && password) {
@@ -89,7 +100,10 @@ class LoginPage {
             await this.inputs.password.fill(password)
             await this.clickLoginBtn()
             await expect(this.labels.incorrectLogin).toBeVisible()
+            const incorrectLoginLabel = await this.labels.incorrectLogin.innerText()
+            errorMsg = incorrectLoginLabel;
         }
+        return errorMsg;
     }
 
     async clickLoginBtn(): Promise<void> {

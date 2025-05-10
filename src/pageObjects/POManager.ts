@@ -22,7 +22,7 @@ class POManager {
     viewProductPage: ViewProductPage
     orderSummaryPage: OrderSummaryPage
 
-    constructor(page) {
+    constructor(page: Page) {
         this.page = page
         this.loginPage = new LoginPage(this.page)
         this.dashboardPage = new DashboardPage(this.page)

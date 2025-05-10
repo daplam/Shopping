@@ -26,9 +26,7 @@ test.describe('Login Scenarios', () => {
         // const loginMail = 'starwayheavengod@gmail.com'
         //const password = ''
         await utils.loginByScenario({ scenario: 'MissingPassword' })
-
         //await utils.incorrectLogin({ email: loginMail, password: password })
-
     });
 
     test('TC03 - Missing Email', async ({ page }) => {
@@ -39,8 +37,6 @@ test.describe('Login Scenarios', () => {
 
         //await utils.incorrectLogin({ email: loginMail, password: password })
         await utils.loginByScenario({ scenario: 'MissingUsername' })
-
-
     });
 
     test('TC04 - Missing username and password', async ({ page }) => {

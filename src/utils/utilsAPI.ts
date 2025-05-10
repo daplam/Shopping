@@ -7,7 +7,7 @@ class UtilsAPI {
     urlLogin: string
 
 
-    constructor(apiContext, loginPayload) {
+    constructor(apiContext: APIRequestContext, loginPayload: {}) {
         this.apiContext = apiContext
         this.loginPayload = loginPayload
         this.urlLogin = 'https://rahulshettyacademy.com/api/ecom/auth/login'

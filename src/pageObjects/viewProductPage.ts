@@ -10,10 +10,10 @@ class ViewProductPage {
         continueShopping: Locator
     }
 
-    private readonly productDetails: {
+    /*private readonly productDetails: {
         productName: Locator
         productPrice: Locator
-    }
+    }*/
 
     private readonly toast: {
         addedToCart: Locator

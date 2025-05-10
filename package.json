@@ -4,19 +4,25 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "apitest": "npx playwright test --grep @API",
-    "Allure report":"allure serve allure-results"
+    "allure:report:specs": "allure generate allure-results/specs -o allure-reports/specs --clean",
+    "allure:report:cucumber": "allure generate allure-results/cucumber -o allure-reports/cucumber --clean",
+    "allure:open:specs": "allure open allure-reports/specs",
+    "allure:open:cucumber": "allure open allure-reports/cucumber"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@cucumber/cucumber": "^11.2.0",
     "@playwright/test": "^1.52.0",
-    "@types/node": "^22.14.1",
-    "allure-playwright": "^3.2.1"
-  },
-  "dependencies": {
-    "@cucumber/cucumber": "^11.2.0"
+    "@types/cucumber": "^6.0.1",
+    "@types/node": "^22.15.15",
+    "allure-commandline": "^2.34.0",
+    "allure-cucumberjs": "^3.2.1",
+    "allure-playwright": "^3.2.1",
+    "playwright": "^1.52.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   }
 }

@@ -6,12 +6,12 @@ class DashboardPage {
     card: Locator
     sideOptions: Locator
 
-    private readonly products: {
+    /*private readonly products: {
         productName: Locator
         productPrice: Locator
         viewBtn: Locator
         addToCartBtn: Locator
-    }
+    }*/
 
     private readonly buttons: {
         viewBtn: Locator,

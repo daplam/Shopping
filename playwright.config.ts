@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test'
 
 /**
  * Read environment variables from file.
@@ -18,8 +18,14 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  reporter: [["line"], ["allure-playwright"]],
-
+  //reporter: [["line"]],
+  reporter: [
+    ['allure-playwright', {
+      resultsDir: 'allure-results/specs',  // Make sure path is correct
+      detail: true,
+      suiteTitle: true
+    }]
+  ],
   timeout: 4 * 10000,
   //workers: 2,
   /* Opt out of parallel tests on CI. */

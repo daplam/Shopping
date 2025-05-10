@@ -1,0 +1,73 @@
+[
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "your-orders-page;simple-login",
+        "keyword": "Scenario",
+        "line": 7,
+        "name": "Simple login",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 440866100
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "the user navigates to login page",
+            "match": {
+              "location": "steps\\loginPage.ts:5"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4697315598
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "the user logins with user \"\" and password \"\"",
+            "match": {
+              "location": "steps\\loginPage.ts:12"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 5091507999,
+              "error_message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByLabel('Login Successfully')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - locator._expect with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Login Successfully')\u001b[22m\n\n    at Proxy.<anonymous> (C:\\ShoppingBDD\\node_modules\\playwright\\lib\\matchers\\expect.js:221:24)\n    at LoginPage.loginSuccess (C:\\ShoppingBDD\\src\\pageObjects\\loginPage.ts:64:52)\n    at async UtilsUI.userLogin (C:\\ShoppingBDD\\src\\utils\\utilsUI.ts:29:9)\n    at async World.<anonymous> (C:\\ShoppingBDD\\steps\\loginPage.ts:14:5)"
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "failed",
+              "duration": 9805500,
+              "error_message": "TypeError: Cannot read properties of undefined (reading 'close')\n    at World.<anonymous> (C:\\ShoppingBDD\\steps\\support\\hooks.ts:21:24)"
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@LoginSimple",
+            "line": 6
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "your-orders-page",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Your orders Page",
+    "tags": [],
+    "uri": "features\\yourOrders.feature"
+  }
+]

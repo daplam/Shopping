@@ -2,19 +2,28 @@ import { Page } from "@playwright/test";
 import POManager from "../pageObjects/POManager";
 import { TOPOPTIONS } from "../constants/constants";
 import dataset from '../../testData/testLoginData.json';
-import { Scenario } from '../types';  // Importando el tipo `Scenario`
+import { Scenario } from '../types';  // Import login and scenario types
+import usersData from '../../testData/users.json'
 
 export interface LoginData {
     username: string;
     password: string;
 }
 
+export interface Userdata {
+    user: string;
+    password: string;
+    role: string;
+}
+const users: Userdata[] = usersData.usuarios;
+
+
 class UtilsUI {
 
     page: Page
     poManager: POManager
 
-    constructor(page) {
+    constructor(page: Page) {
         this.page = page
         this.poManager = new POManager(this.page)
     }
@@ -25,8 +34,37 @@ class UtilsUI {
 
     async userLogin({ email, password }: { email: string, password: string }) {
 
+        let msg
         const loginPage = this.poManager.getLoginPage()
-        await loginPage.loginSuccess({ email: email, password: password })
+        msg = await loginPage.loginSuccess({ email: email, password: password })
+        return msg
+    }
+
+    async getLogin(): Promise<Userdata[]> {
+        // Return the user array directly from imported JSON
+        return users;
+    }
+
+    async LoginbyRole({ role }: { role: string }): Promise<void> {
+        try {
+            // Get users directly from JSON file
+            const users = await this.getLogin();
+
+            // Search the user with the role sent
+            const user = (await users).find((user) => user.role === role);
+
+            if (!user) {
+                throw new Error(`User not found with the role: ${role}`);
+            }
+
+            await this.userLogin({ email: user.user, password: user.password })
+
+            // console.log(`Making login with user ${user.user} and role ${user.role}`);
+            console.log(`Making login with role ${user.role}`);
+
+        } catch (error) {
+            console.error('Error getting data user:', error);
+        }
     }
 
     async userLogOut() {
@@ -36,14 +74,14 @@ class UtilsUI {
 
     async incorrectLogin({ email, password }: { email: string, password: string }) {
         const loginPage = this.poManager.getLoginPage()
+        let errorMsg
+        errorMsg = await loginPage.loginIncorrect({ email: email, password: password })
 
-        await loginPage.loginIncorrect({ email: email, password: password })
-
+        return errorMsg
     }
 
-    async getLoginData(scenario: Scenario): Promise<LoginData> { //  with interface
+    async getLoginByScenario(scenario: Scenario): Promise<LoginData> { //  with interface
         const data = dataset[scenario];
-        //console.log(data)
 
         if (!data) {
             throw new Error(`Scenario not found: ${scenario}`);
@@ -52,17 +90,19 @@ class UtilsUI {
     }
 
     async loginByScenario({ scenario }: { scenario: Scenario }) {
-        const data = await this.getLoginData(scenario)
+        const data = await this.getLoginByScenario(scenario)
+        let message
         switch (scenario) {
             case 'SuccessLogin':
-                await this.userLogin({ email: data.username, password: data.password })
+                message = await this.userLogin({ email: data.username, password: data.password })
                 break
             case 'MissingUsername':
             case 'MissingPassword':
             case 'MissingCredentials':
-                await this.incorrectLogin({ email: data.username, password: data.password })
+                message = await this.incorrectLogin({ email: data.username, password: data.password })
                 break;
         }
+        return message
     }
 
     async selectTopMenuOption({ option }: { option: TOPOPTIONS }) {

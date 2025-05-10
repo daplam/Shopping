@@ -1,9 +1,9 @@
-import test from "@playwright/test";
+import test, { BrowserContext } from "@playwright/test";
 import POManager from "../../src/pageObjects/POManager";
 import UtilsUI from "../../src/utils/utilsUI";
 import { TOPOPTIONS } from "../../src/constants/constants";
 
-let webContext // global variable to be accesible in all file
+let webContext: BrowserContext // global variable to be accesible in all file
 
 test.beforeAll(async ({ browser }) => {
 

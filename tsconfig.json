@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "rootDir": ".",                         // Base project
+    "types": ["node","@types/cucumber"],
+    "resolveJsonModule": true
+  },
+  "include": [
+    "steps/**/*.ts",
+    "tests/**/*.ts",           // Include all typescript tests
+    "features/**/*.feature"     // Include .feature files of cucumber in the folder 'features'    
+  ]
+}

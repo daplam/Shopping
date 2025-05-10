@@ -7,7 +7,7 @@ const loginPayload = { userEmail: "starwayheavengod@gmail.com", userPassword: "A
 const createOrderPayload = { orders: [{ country: "Armenia", productOrderedId: "67a8dde5c0d3e6622a297cc8" }] }
 // with request object, it allows to call apis
 
-let response
+let response: { token: any; orderId: any; }
 const fakePayloadResponse = { data: [], message: "No Orders" }
 
 

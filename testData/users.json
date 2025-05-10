@@ -1,0 +1,19 @@
+{
+  "usuarios": [
+    {
+      "user": "starwayheavengod@gmail.com",
+      "password": "Alejandro.123",
+      "role": "user1"
+    },
+    {
+      "user": "maria456",
+      "password": "miClaveSegura2",
+      "role": "editor"
+    },
+    {
+      "user": "pedro789",
+      "password": "claveFuerte3",
+      "role": "viewer"
+    }
+  ]
+}
