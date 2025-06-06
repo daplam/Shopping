@@ -1,4 +1,0 @@
-"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","7599","Upload download modify name","chromium","Mon Jun 02 15:17:10 CDT 2025","passed","Mon Jun 02 15:17:18 CDT 2025","","Excel\exceltest.spec.ts","",""
-"","14157","Upload download excel validation","chromium","Thu May 22 16:18:28 CDT 2025","passed","Thu May 22 16:18:43 CDT 2025","","Excel\exceltest.spec.ts","",""
-"","6852","Upload download modify price","chromium","Thu May 22 16:48:25 CDT 2025","passed","Thu May 22 16:48:32 CDT 2025","","Excel\exceltest.spec.ts","",""
