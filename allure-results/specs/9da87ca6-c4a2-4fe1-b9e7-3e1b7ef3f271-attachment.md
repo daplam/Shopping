@@ -1,0 +1,181 @@
+# Test info
+
+- Name: Upload download excel validation
+- Location: C:\ShoppingBDD\tests\Excel\exceltest.spec.ts:49:5
+
+# Error details
+
+```
+Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+Locator: getByRole('alert').filter({ hasText: 'Updated Excel Data Successfully.' })
+Expected: visible
+Received: <element(s) not found>
+Call log:
+  - expect.toBeVisible with timeout 5000ms
+  - waiting for getByRole('alert').filter({ hasText: 'Updated Excel Data Successfully.' })
+
+    at C:\ShoppingBDD\tests\Excel\exceltest.spec.ts:74:99
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - 'heading "RAHUL SHETTY ACADEMY PRACTISE Note: Data will be reset after page refresh." [level=1]'
+- table:
+  - rowgroup:
+    - row "S No ▲ Fruit Name ▲ Color ▲ Price ▲ Season ▲":
+      - columnheader "S No ▲"
+      - columnheader "Fruit Name ▲"
+      - columnheader "Color ▲"
+      - columnheader "Price ▲"
+      - columnheader "Season ▲"
+  - rowgroup:
+    - row "1 Mango Yellow 299 Summer":
+      - cell "1"
+      - cell "Mango"
+      - cell "Yellow"
+      - cell "299"
+      - cell "Summer"
+    - row "2 Apple Red 345 Winter":
+      - cell "2"
+      - cell "Apple"
+      - cell "Red"
+      - cell "345"
+      - cell "Winter"
+    - row "3 Papaya Orange 187 Spring":
+      - cell "3"
+      - cell "Papaya"
+      - cell "Orange"
+      - cell "187"
+      - cell "Spring"
+    - row "4 Banana Yellow 69 All":
+      - cell "4"
+      - cell "Banana"
+      - cell "Yellow"
+      - cell "69"
+      - cell "All"
+    - row "5 Kivi Green 399 Winter":
+      - cell "5"
+      - cell "Kivi"
+      - cell "Green"
+      - cell "399"
+      - cell "Winter"
+    - row "6 Orange Orange 199 Summer":
+      - cell "6"
+      - cell "Orange"
+      - cell "Orange"
+      - cell "199"
+      - cell "Summer"
+- navigation:
+  - text: "Rows per page:"
+  - combobox "Rows per page:":
+    - option "10" [selected]
+    - option "15"
+    - option "20"
+    - option "25"
+    - option "30"
+  - img
+  - text: 1-6 of 6
+  - button "First Page" [disabled]
+  - button "Previous Page" [disabled]
+  - button "Next Page" [disabled]
+  - button "Last Page" [disabled]
+- button "Download"
+- button "Choose File"
+- alert:
+  - img
+  - text: No rows found.
+- button "close"
+- progressbar "notification timer"
+```
+
+# Test source
+
+```ts
+   1 | import test, { expect } from 'playwright/test';
+   2 |
+   3 | import ExcelJS, { CellValue, Worksheet } from 'exceljs';
+   4 |
+   5 | interface CellPosition {
+   6 |     rowNum: number;
+   7 |     colNum: number;
+   8 | }
+   9 |
+  10 | async function writeExcel({ searchValue, replaceValue, excelFile }: { searchValue: CellValue, replaceValue: CellValue, excelFile: string }): Promise<void> {
+  11 |
+  12 |     const workbook = new ExcelJS.Workbook() // create object of class Exceljs
+  13 |     await workbook.xlsx.readFile(excelFile)
+  14 |     const workSheet = workbook.getWorksheet('Sheet1')
+  15 |     if (!workSheet) throw new Error('Worksheet "Sheet1" not found');
+  16 |
+  17 |     const cellValues = await readExcel({ worksheet: workSheet, toSearch: searchValue })
+  18 |
+  19 |     if (cellValues.rowNum === -1 || cellValues.colNum === -1) {
+  20 |         throw new Error(`Value "${searchValue}" not found in worksheet`);
+  21 |     }
+  22 |
+  23 |
+  24 |     const cell = workSheet.getCell(cellValues.rowNum, cellValues.colNum) // need to pass the specific row and column
+  25 |
+  26 |     cell.value = replaceValue // update value
+  27 |     await workbook.xlsx.writeFile(excelFile) // save changes
+  28 | }
+  29 |
+  30 | async function readExcel({ worksheet, toSearch }: { worksheet: Worksheet, toSearch: CellValue }): Promise<CellPosition> {
+  31 |     // let outputcell = { rowNum: -1, colNum: -1 }
+  32 |     let outputcell: CellPosition = { rowNum: -1, colNum: -1 };
+  33 |
+  34 |     worksheet.eachRow((row, rowNumber) => {
+  35 |         row.eachCell((cell, columnNumber) => {
+  36 |             if (cell.value === toSearch) {
+  37 |                 outputcell.rowNum = rowNumber
+  38 |                 outputcell.colNum = columnNumber
+  39 |                 console.log(rowNumber + '-' + columnNumber)
+  40 |
+  41 |             }
+  42 |         })
+  43 |     })
+  44 |     return outputcell
+  45 | }
+  46 |
+  47 |
+  48 |
+  49 | test('Upload download excel validation', async ({ page }) => {
+  50 |     const textSearch = 'Mango';
+  51 |     const updateValue = 'test';
+  52 |     await page.goto("https://rahulshettyacademy.com/upload-download-test/index.html");
+  53 |
+  54 |
+  55 |     await page.getByRole('button', { name: 'Download' }).isVisible()
+  56 |
+  57 |     const [promiseDownload] = await Promise.all([
+  58 |         page.waitForEvent('download'),
+  59 |         page.getByRole('button', { name: 'Download' }).click()
+  60 |     ]);
+  61 |     const path = await promiseDownload.path(); // temporal path
+  62 |
+  63 |     // save specific path
+  64 |     await promiseDownload.saveAs('/Users/Daplam/Downloads/download.xlsx');
+  65 |
+  66 |     // assert file name
+  67 |     await expect(promiseDownload.suggestedFilename()).toContain('download.xlsx');
+  68 |
+  69 |     await promiseDownload
+  70 |     writeExcel({ searchValue: textSearch, replaceValue: updateValue, excelFile: "/Users/Daplam/Downloads/download.xlsx" });
+  71 |
+  72 |     //wait page.locator("#fileinput").click();
+  73 |     await page.locator("#fileinput").setInputFiles("/Users/Daplam/Downloads/download.xlsx");
+> 74 |     await expect(page.getByRole('alert').filter({ hasText: 'Updated Excel Data Successfully.' })).toBeVisible()
+     |                                                                                                   ^ Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+  75 |
+  76 |     await expect(page.getByText(updateValue)).toBeVisible()
+  77 |     await page.pause()
+  78 |
+  79 |     //const textlocator = page.getByText(textSearch);
+  80 |     //const desiredRow = await page.getByRole('row').filter({ has: textlocator })
+  81 |     //await expect(page.getByRole('row')).toContainText(textSearch)
+  82 |     //await expect(desiredRow.locator("#cell-4-undefined")).toContainText(updateValue);
+  83 | })
+```

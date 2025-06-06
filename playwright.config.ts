@@ -53,6 +53,7 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     //screenshot: 'on',
+    acceptDownloads: true,
     trace: 'retain-on-failure', // 'retain-on-failure' - to trace only when fails // on/off -- on trace all
   },
 
@@ -63,9 +64,9 @@ export default defineConfig({
       use: {
         browserName: 'chromium',
         ...devices['Desktop Chrome'],
-        headless: false,
+        //headless: false,
         //video: 'retain-on-failure', //Record video for each test, but remove all videos from successful test runs
-        viewport: { width: 1280, height: 720 }, // open the browser in the specific size input
+        //viewport: { width: 1280, height: 720 }, // open the browser in the specific size input
         ignoreHTTPSErrors: true // ignore SSL errors. When there is message that Connection is not private and is needed to go to go to advanced and accept in the browser
       }
     },

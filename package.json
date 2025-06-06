@@ -7,7 +7,8 @@
     "allure:report:specs": "allure generate allure-results/specs -o allure-reports/specs --clean",
     "allure:report:cucumber": "allure generate allure-results/cucumber -o allure-reports/cucumber --clean",
     "allure:open:specs": "allure open allure-reports/specs",
-    "allure:open:cucumber": "allure open allure-reports/cucumber"
+    "allure:open:cucumber": "allure open allure-reports/cucumber",
+    "apitest":"npx playwright test ApiBlockCall.spec.ts:4"
   },
   "keywords": [],
   "author": "",
@@ -21,8 +22,12 @@
     "allure-commandline": "^2.34.0",
     "allure-cucumberjs": "^3.2.1",
     "allure-playwright": "^3.2.1",
+    "dotenv": "^16.5.0",
     "playwright": "^1.52.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0"
   }
 }

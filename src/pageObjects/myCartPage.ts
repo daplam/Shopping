@@ -72,8 +72,6 @@ class MyCartPage {
             msg = await this.labels.noProducts.innerText()
         }
         return msg
-
-
     }
 
 } export default MyCartPage

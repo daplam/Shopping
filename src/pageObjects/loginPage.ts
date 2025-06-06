@@ -56,13 +56,13 @@ class LoginPage {
     }
 
     async loginSuccess({ email, password }: { email: string, password: string }) {
-        let msg
+
         await this.inputs.email.waitFor({ state: 'visible' })
         await this.inputs.email.fill(email)
         await this.inputs.password.fill(password)
         await this.clickLoginBtn()
         await expect(this.toast.loginSuccessfully).toBeVisible()
-        msg = this.toast.loginSuccessfully.innerText()
+        let msg = this.toast.loginSuccessfully.innerText()
         await this.page.waitForLoadState('networkidle')
         return msg
     }

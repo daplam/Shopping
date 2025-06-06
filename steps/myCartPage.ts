@@ -5,7 +5,8 @@ import { expect } from "playwright/test";
 Then('the cart displays message that is empty', async function () {
     const myCartPage: MyCartPage = this.poManager.getMyCartPage()
     this.msg = await myCartPage.verifyCart()
-    await expect(this.msg).toBe('No Products in Your Cart !')
+    expect(await this.msg).toBe('No Products in Your Cart !')
+    console.log('Scenario PASSED')
 });
 
 
